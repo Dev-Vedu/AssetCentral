@@ -1,0 +1,249 @@
+/* --- Root Variables (Updated to Lavender, White, & Purple) --- */
+@import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap');
+
+:root {
+    --primary: #7c3aed;
+    --primary-hover: #6d28d9;
+    --bg-main: #F3E8FF;           /* Soft Lavender Background */
+    --sidebar-bg: #ffffff;        /* Clean White Sidebar */
+    --card-bg: #ffffff;           /* Pure White Content Cards */
+    --text-main: #0f172a;         /* Deep Slate */
+    --text-muted: #64748b;        /* Muted Gray */
+    --sidebar-width: 260px;
+    --transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* --- Global Layout --- */
+body, html {
+    margin: 0;
+    padding: 0;
+    font-family: 'Plus Jakarta Sans', sans-serif;
+    background-color: var(--bg-main);
+    color: var(--text-main);
+    min-height: 100vh;
+    overflow-x: hidden;
+    background-image: radial-gradient(at 0% 0%, rgba(255, 255, 255, 0.4) 0px, transparent 50%);
+}
+
+.dashboard-container { display: flex; }
+
+/* --- Sidebar --- */
+.sidebar {
+    width: var(--sidebar-width);
+    background-color: var(--sidebar-bg);
+    height: 100vh;
+    position: fixed;
+    display: flex;
+    flex-direction: column;
+    color: var(--text-main);
+    z-index: 100;
+    border-right: 2px solid #000000; /* Added Black Border */
+}
+
+.sidebar .logo {
+    padding: 2.5rem 2rem;
+    font-size: 1.4rem;
+    font-weight: 800;
+    text-transform: uppercase;
+    color: var(--primary);
+}
+
+.nav-links li a.active, .nav-links li a:hover {
+    color: var(--primary);
+    background: rgba(139, 92, 246, 0.05);
+    border-left: 4px solid var(--primary);
+}
+
+/* --- Main Content --- */
+.main-content {
+    margin-left: var(--sidebar-width);
+    flex-grow: 1;
+    padding: 3.5rem;
+    width: calc(100% - var(--sidebar-width));
+}
+
+header h2 {
+    font-size: 2.4rem;
+    font-weight: 800;
+    color: var(--text-main);
+}
+
+/* --- Table Wrapper (Content Box) --- */
+.table-wrapper {
+    width: 100% !important;
+    background: var(--card-bg);
+    border: 2px solid #000000; /* Added Black Border */
+    border-radius: 28px;
+    margin-top: 35px;
+    overflow: hidden;
+    box-shadow: 0 15px 30px rgba(139, 92, 246, 0.1);
+}
+
+.styled-table th {
+    background-color: #f8fafc;
+    color: #000;
+    font-weight: 800;
+    text-transform: uppercase;
+    padding: 24px;
+    border-bottom: 2px solid #000; /* Added Black Border to header */
+}
+
+.styled-table td {
+    padding: 20px 24px;
+    border-bottom: 1px solid #f1f5f9;
+    font-weight: 600;
+}
+
+/* --- Action Buttons --- */
+.btn-action {
+    padding: 12px 24px;
+    background: white;
+    border: 2px solid #000; /* Added Black Border */
+    border-radius: 14px;
+    color: #000;
+    font-weight: 700;
+    text-decoration: none;
+}
+
+.btn-primary-purple {
+    background: var(--primary);
+    color: white;
+    border: 2px solid #000; /* Added Black Border */
+    padding: 12px 24px;
+    border-radius: 14px;
+    font-weight: 700;
+    cursor: pointer;
+}
+
+/* Header Gradient Variations */
+
+/* 1. Purple Gradient (Total Assets / Your Assets) */
+/* ==========================================================================
+   STATS GRID & CARDS
+   ========================================================================== */
+.stats-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 25px;
+    margin-bottom: 35px;
+}
+
+.stat-card {
+    background: white;
+    border-radius: 20px;
+    overflow: hidden; /* Important for the header color to stay inside corners */
+    border: 1px solid var(--border-color);
+    box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.04);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.stat-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 15px 25px -5px rgba(0, 0, 0, 0.08);
+}
+
+/* --- Card Header (Gradient Bar) --- */
+.card-header {
+    padding: 15px 20px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    color: white;
+}
+
+/* Color Variations using your requested #872bb1 */
+.stat-card.total .card-header {
+    background: linear-gradient(135deg, #621e82, #872bb1);
+}
+.stat-card.users .card-header {
+    background: linear-gradient(135deg, #872bb1, #a855f7);
+}
+.stat-card.issues .card-header {
+    background: linear-gradient(135deg, #ef4444, #b91c1c);
+}
+
+.card-header span {
+    font-size: 12px;
+    font-weight: 800;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    color: #ffffff; /* Explicitly white */
+}
+
+.card-header i {
+    font-size: 18px;
+    opacity: 0.8;
+    color: #ffffff;
+}
+
+/* --- Card Content --- */
+.stat-card h3 {
+    margin: 20px 20px 5px;
+    font-size: 36px;
+    font-weight: 800;
+    color: var(--text-main);
+}
+
+.card-subtitle {
+    margin: 0 20px 20px;
+    font-size: 13px;
+    color: var(--text-muted);
+    font-weight: 500;
+}
+/* Container for the whole logo section */
+.logo-area {
+    padding: 25px 25px 15px 25px;
+}
+
+.brand-container {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+
+.brand-content {
+    font-size: 24px;
+    display: flex;
+    align-items: center;
+    /* The Gradient Magic */
+    background: linear-gradient(135deg, #ffffff 30%, #a855f7 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+}
+
+.brand-icon {
+    margin-right: 10px;
+    font-size: 22px;
+    /* Ensures the icon also takes the gradient */
+    -webkit-text-fill-color: transparent;
+}
+
+.brand-text {
+    font-weight: 800;
+    letter-spacing: -1.2px;
+    margin-bottom: 10px;
+}
+
+/* Subtitle "Admin Panel" Styles */
+.panel-subtitle-container {
+    font-size: 15px;
+    font-weight: 700;
+    color: #94a3b8;
+    text-transform: uppercase;
+    letter-spacing: 3px;
+    margin-top: 13px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    opacity: 0.8;
+}
+
+.line-accent {
+    width: 20px;
+    height: 1px;
+    background: #7c3aed;
+}
+
+.subtitle-text {
+    white-space: nowrap;
+}

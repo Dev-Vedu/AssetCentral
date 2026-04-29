@@ -1,0 +1,256 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login | IT Asset Management</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
+
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Poppins', sans-serif;
+        }
+
+        body {
+            height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            /* Deep Black Background */
+            background: #000000;
+
+        }
+
+        .container {
+            width: 850px;
+            height: 500px;
+            display: flex;
+            background: #ffffff;
+            border-radius: 30px ;
+            overflow: hidden;
+            border: 1px solid #fff;
+            box-shadow: 0 25px 50px -12px rgba(109, 40, 217, 0.2);
+        }
+
+        /* LEFT PANEL - Minimalist & Bold */
+        .left {
+            flex: 1.2;
+            background-image: url('css/images/loginback.jpg');
+            background-size: cover;
+            background-position: center;
+            color: white;
+            padding: 60px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            clip-path: polygon(0 0, 100% 0, 85% 100%, 0% 100%);
+        }
+
+        .left h1 {
+            font-size: 42px;
+            line-height: 1.1;
+            font-weight: 700;
+            margin-bottom: 15px;
+        }
+
+        .left p {
+            font-size: 15px;
+            opacity: 0.9;
+            line-height: 1.6;
+            max-width: 280px;
+        }
+
+        /* RIGHT PANEL - Clean & Spacious */
+        .right {
+            flex: 1;
+            background: #ffffff;
+            padding: 60px 40px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+        }
+
+        .right h2 {
+            font-size: 28px;
+            color: #111;
+            margin-bottom: 35px;
+            font-weight: 700;
+            position: relative;
+        }
+
+        /* Subtle underline for the Login title */
+        .right h2::after {
+            content: '';
+            position: absolute;
+            bottom: -8px;
+            left: 0;
+            width: 40px;
+            height: 4px;
+            background: #6d28d9;
+            border-radius: 2px;
+        }
+
+        .input-group {
+            margin-bottom: 25px;
+        }
+
+        input {
+            width: 100%;
+            padding: 12px 15px;
+            background: #f9fafb;
+            border: 1px solid #e5e7eb;
+            border-radius: 12px;
+            color: #111;
+            font-size: 14px;
+            transition: all 0.3s ease;
+        }
+
+        input:focus {
+            outline: none;
+            border-color: #6d28d9;
+            background: #ffffff;
+            box-shadow: 0 0 0 4px rgba(109, 40, 217, 0.1);
+        }
+
+        /* THE PURPLE BUTTON */
+        button {
+            width: 100%;
+            padding: 14px;
+            margin-top: 15px;
+            border: none;
+            border-radius: 12px;
+            background: linear-gradient(135deg, #872bb1, #b53cd9);
+            color: white;
+            font-weight: 600;
+            font-size: 16px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            letter-spacing: 0.5px;
+        }
+
+        button:hover {
+            background: linear-gradient(135deg, #872bb1, #b53cd9);
+            transform: translateY(-2px);
+            box-shadow: 0 10px 15px -3px rgba(109, 40, 217, 0.4);
+        }
+
+        button:active {
+            transform: translateY(0);
+        }
+
+        .extra {
+            margin-top: 25px;
+            font-size: 13px;
+            text-align: center;
+            color: #6b7280;
+        }
+
+        .extra a {
+            color: #6d28d9;
+            text-decoration: none;
+            font-weight: 600;
+        }
+
+        .extra a:hover {
+            text-decoration: underline;
+        }
+
+        /* Responsive adjustment for smaller screens */
+        @media (max-width: 800px) {
+            .container {
+                width: 90%;
+                flex-direction: column;
+                height: auto;
+            }
+            .left {
+                padding: 40px;
+                clip-path: none;
+            }
+            .right {
+                padding: 40px;
+            }
+        }
+        .page-brand-overlay {
+    position: fixed;
+    top: 30px;
+    left: 30px;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    z-index: 1000; /* Keeps it above everything */
+}
+
+.page-brand-overlay i {
+    font-size: 22px;
+    color: #ffffff; /* Bright white icon */
+    filter: drop-shadow(0 0 10px rgba(135, 43, 177, 0.3));
+}
+
+.page-brand-overlay span {
+    font-size: 22px;
+    font-weight: 800;
+    letter-spacing: -1.2px;
+    color: #ffffff;
+    /* Adding a subtle gradient text effect */
+    background: linear-gradient(135deg, #ffffff 50%, #a855f7 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+}
+
+/* Ensure the logo is readable on small screens */
+@media (max-width: 800px) {
+    .page-brand-overlay {
+        top: 20px;
+        left: 20px;
+    }
+    .page-brand-overlay span {
+        font-size: 18px;
+    }
+}
+    </style>
+</head>
+
+<body>
+
+<div class="page-brand-overlay">
+    <i class="fa-solid fa-box-open"></i>
+    <span>AssetCentral</span>
+</div>
+
+<div class="container">
+
+
+    <!-- LEFT SIDE -->
+    <div class="left">
+
+        <h1>WELCOME<br>BACK!</h1>
+        <p>Manage your IT assets efficiently and securely.</p>
+    </div>
+
+    <!-- RIGHT SIDE -->
+    <div class="right">
+        <h2>Login</h2>
+
+        <form action="/login" method="post">
+            <div class="input-group">
+                <input type="email" name="email" placeholder="Email" required>
+            </div>
+
+            <div class="input-group">
+                <input type="password" name="password" placeholder="Password" required>
+            </div>
+
+            <button type="submit">Sign In</button>
+        </form>
+
+
+    </div>
+
+</div>
+
+</body>
+</html>

@@ -1,0 +1,170 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Edit Asset | AssetCentral</title>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+    <style>
+        :root {
+            --primary: #6d28d9;
+            --accent: #a855f7;
+            --bg-body: #f9fafb;
+            --text-main: #111827;
+            --text-muted: #6b7280;
+            --border-color: #f3f4f6;
+        }
+
+        body {
+            margin: 0;
+            padding: 0;
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            background-color: var(--bg-body);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+        }
+
+        /* --- EDIT CARD --- */
+        .edit-card {
+            background: white;
+            padding: 50px;
+            border-radius: 24px;
+            border: 1px solid var(--border-color);
+            box-shadow: 0 10px 25px rgba(0,0,0,0.02);
+            width: 100%;
+            max-width: 450px;
+            animation: fadeIn 0.4s ease;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .edit-card h2 {
+            margin: 0 0 10px 0;
+            font-size: 26px;
+            font-weight: 800;
+            color: var(--text-main);
+            text-align: center;
+        }
+
+        .edit-card p {
+            color: var(--text-muted);
+            font-size: 14px;
+            margin-bottom: 35px;
+            text-align: center;
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        .form-group label {
+            display: block;
+            font-size: 12px;
+            font-weight: 700;
+            margin-bottom: 8px;
+            color: var(--text-main);
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .form-group input {
+            width: 100%;
+            padding: 14px 18px;
+            border: 1px solid var(--border-color);
+            border-radius: 12px;
+            font-size: 15px;
+            font-family: inherit;
+            background: #f9fafb;
+            transition: 0.3s;
+            box-sizing: border-box;
+        }
+
+        .form-group input:focus {
+            outline: none;
+            border-color: var(--primary);
+            background: white;
+            box-shadow: 0 0 0 4px rgba(109, 40, 217, 0.1);
+        }
+
+        .btn-update {
+            width: 100%;
+            background: var(--primary); color: white;
+            color: white;
+            padding: 16px;
+            border: none;
+            border-radius: 12px;
+            font-size: 16px;
+            font-weight: 700;
+            cursor: pointer;
+            transition: 0.3s;
+            margin-top: 10px;
+            box-shadow: 0 4px 12px rgba(109, 40, 217, 0.2);
+        }
+
+        .btn-update:hover {
+            transform: translateY(-2px);
+            filter: brightness(1.1);
+            box-shadow: 0 8px 20px rgba(109, 40, 217, 0.3);
+        }
+
+        .back-link {
+            display: block;
+            text-align: center;
+            margin-top: 25px;
+            text-decoration: none;
+            color: var(--text-muted);
+            font-size: 14px;
+            font-weight: 600;
+            transition: 0.2s;
+        }
+
+        .back-link:hover {
+            color: var(--primary);
+        }
+
+        .back-link i {
+            font-size: 12px;
+            margin-right: 5px;
+        }
+
+
+
+    </style>
+</head>
+<body>
+
+<div class="edit-card">
+    <h2>Edit Asset</h2>
+    <p>Update the technical information for this inventory item.</p>
+
+    <form th:action="@{/admin/update-asset}" method="post">
+        <input type="hidden" th:value="${asset.id}" name="id"/>
+
+        <div class="form-group">
+            <label>Asset Name</label>
+            <input type="text" th:value="${asset.name}" name="name" required placeholder="Enter asset name">
+        </div>
+
+        <div class="form-group">
+            <label>Serial Number</label>
+            <input type="text" th:value="${asset.serialNumber}" name="serialNumber" required placeholder="Enter serial number">
+        </div>
+
+        <button type="submit" class="btn-update">
+            <i class="fas fa-save"></i> Save Changes
+        </button>
+    </form>
+
+    <a href="/admin/dashboard" class="back-link">
+        <i class="fas fa-arrow-left"></i> Discard and return
+    </a>
+</div>
+
+</body>
+</html>

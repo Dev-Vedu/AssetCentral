@@ -1,0 +1,211 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AssetPro | Enterprise Management System</title>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <script src="https://unpkg.com/@phosphor-icons/web"></script>
+
+    <style>
+        :root {
+            --primary: #6366f1;
+            --accent: #a855f7;
+            --bg-void: #000000;
+            --text-main: #ffffff;
+            --text-muted: #94a3b8;
+            --gradient-primary: linear-gradient(135deg, #6366f1 0%, #a855f7 100%);
+        }
+
+        body {
+            margin: 0;
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            background-color: var(--bg-void);
+            color: var(--text-main);
+            overflow-x: hidden;
+        }
+
+        /* NAVBAR */
+        .navbar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 20px 5% 20px 25px;
+
+            background: rgba(0, 0, 0, 0.8);
+            backdrop-filter: blur(15px);
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .logo {
+            font-weight: 800; font-size: 24px; letter-spacing: -1px;
+            background: var(--gradient-primary);
+            -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+        }
+
+        /* HERO */
+        .hero {
+            display: flex; align-items: center; justify-content: space-between;
+            padding: 80px 8% 40px; min-height: 60vh;
+        }
+
+        .hero-text h1 { font-size: clamp(40px, 6vw, 64px); line-height: 1.1; font-weight: 800; margin-bottom: 20px; }
+        .hero-text p { font-size: 1.1rem; color: var(--text-muted); max-width: 500px; margin-bottom: 40px; }
+
+        .btn { padding: 14px 32px; border-radius: 12px; font-weight: 700; cursor: pointer; transition: 0.3s; text-decoration: none; display: inline-block; }
+        .btn-primary { background: var(--gradient-primary); color: white; border: none; }
+        .btn-outline { background: transparent; border: 1px solid rgba(255,255,255,0.2); color: white; margin-left: 10px; }
+
+
+        /* NEW DASHBOARD PREVIEW SECTION */
+        .dashboard-preview {
+            padding: 60px 5%;
+            text-align: center;
+            background: linear-gradient(to bottom, transparent, #050110);
+        }
+
+        .browser-mockup {
+            max-width: 1000px;
+            margin: 0 auto;
+            background: #1a1a1a;
+            border-radius: 20px;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            overflow: hidden;
+            box-shadow: 0 40px 100px rgba(99, 102, 241, 0.2);
+        }
+
+        .browser-header {
+            background: #252525;
+            padding: 12px 20px;
+            display: flex;
+            gap: 8px;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+        }
+
+        .dot { width: 12px; height: 12px; border-radius: 50%; background: #333; }
+        .dot.red { background: #ff5f56; }
+        .dot.yellow { background: #ffbd2e; }
+        .dot.green { background: #27c93f; }
+
+        .dashboard-img {
+            width: 100%;
+            height: auto;
+            display: block;
+            filter: grayscale(20%);
+            transition: 0.5s;
+        }
+
+        .browser-mockup:hover .dashboard-img { filter: grayscale(0%); transform: scale(1.02); }
+
+        /* ROLES SECTION */
+        .roles-section { padding: 80px 5%; text-align: center; }
+        .role-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 30px; }
+        .role-card { background: rgba(255, 255, 255, 0.03); border: 1px solid rgba(255, 255, 255, 0.05); padding: 40px; border-radius: 24px; transition: 0.3s; text-align: left; }
+        .role-card:hover { border-color: var(--primary); transform: translateY(-5px); }
+        .role-card i { font-size: 40px; margin-bottom: 20px; background: var(--gradient-primary); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
+
+        .footer { padding: 40px 0; text-align: center; border-top: 1px solid rgba(255,255,255,0.05); color: var(--text-muted); font-size: 0.8rem; }
+        /* Unique Brand Typography */
+.brand-name {
+    font-weight: 800;
+    font-size: 22px;
+    letter-spacing: -1.2px;
+    background: linear-gradient(135deg, #ffffff 40%, #a855f7 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    display: inline-block;
+}
+
+/* Matching the Hero Primary color to your brand purple */
+:root {
+    --primary: #872bb1; /* Updated to match your logo purple */
+    --accent: #a855f7;
+    --bg-void: #000000;
+    --gradient-primary: linear-gradient(135deg, #872bb1 0%, #a855f7 100%);
+}
+
+/* Glow effect for the hero icon to make it look high-tech */
+.ph-cube {
+    filter: drop-shadow(0 0 30px rgba(135, 43, 177, 0.2));
+    animation: float 6s ease-in-out infinite;
+}
+
+@keyframes float {
+    0%, 100% { transform: translateY(0); }
+    50% { transform: translateY(-20px); }
+}
+
+/* Refined Hero text */
+.hero-text h1 {
+    letter-spacing: -2px;
+}
+    </style>
+</head>
+<body>
+
+<nav class="navbar">
+    <div class="brand-unit">
+        <div class="brand-main" style="display: flex; align-items: center;">
+            <i class="fa-solid fa-box-open" style="color: #ffffff; margin-right: 10px; font-size: 22px;"></i>
+            <span class="brand-name">AssetCentral</span>
+        </div>
+    </div>
+    <div class="nav-actions">
+        <a th:href="@{/login}" class="btn btn-primary" style="padding: 10px 24px;">Sign In</a>
+    </div>
+</nav>
+<section class="hero">
+    <div class="hero-text">
+        <h1>Asset <br><span style="color: var(--primary)">Management.</span></h1>
+        <p>A high-performance ecosystem for tracking IT assets, reporting issues, and managing technical duty status.</p>
+        <div class="hero-buttons">
+            <a th:href="@{/login}" class="btn btn-primary">Get Started</a>
+            <!--<a href="#preview" class="btn btn-outline">Live Preview</a>-->
+        </div>
+    </div>
+    <i class="ph ph-cube" style="font-size: 200px; color: rgba(255,255,255,0.05);"></i>
+</section>
+
+<section class="dashboard-preview" id="preview">
+    <h2 style="margin-bottom: 40px; font-weight: 800; font-size: 2.5rem;">Dashboard View</h2>
+    <div class="browser-mockup">
+        <div class="browser-header">
+            <div class="dot red"></div>
+            <div class="dot yellow"></div>
+            <div class="dot green"></div>
+        </div>
+        <img class="dashboard-img" src="/css/images/demoimage.jpeg" alt="AssetPro Dashboard">
+    </div>
+</section>
+
+<section class="roles-section">
+    <h3 style="font-weight: 800; font-size: 2.4rem;">User Personas</h3>
+    <div class="role-grid">
+        <div class="role-card">
+            <i class="ph ph-shield-star"></i>
+            <h3>Administrators</h3>
+            <p>Full control over system status, user authentication, and organizational oversight.</p>
+        </div>
+        <div class="role-card">
+            <i class="ph ph-users-four"></i>
+            <h3>Employees</h3>
+            <p>View assigned assets and instantly report hardware or network issues.</p>
+        </div>
+        <div class="role-card">
+            <i class="ph ph-wrench"></i>
+            <h3>Workers</h3>
+            <p>Track maintenance requests and manage on-duty status to resolve tickets.</p>
+        </div>
+    </div>
+</section>
+
+<footer class="footer">
+    &copy; 2026 ASSETPRO | SECURE ASSET INFRASTRUCTURE
+</footer>
+
+</body>
+</html>

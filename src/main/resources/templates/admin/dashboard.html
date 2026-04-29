@@ -1,0 +1,176 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Admin Dashboard | AssetCentral</title>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" th:href="@{/css/css/admin/admin.css}">
+</head>
+
+<body>
+<div class="dashboard-container">
+    <nav class="sidebar">
+        <div class="logo-area" style="padding: 25px 25px 15px 25px;">
+            <div style="display: flex; align-items: center; gap: 12px;">
+                <div style="
+            font-size: 24px;
+            background: linear-gradient(135deg, #ffffff 30%, #a855f7 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            display: flex;
+            align-items: center;">
+                    <i class="fa-solid fa-box-open" style="margin-right: 10px; font-size: 22px;"></i>
+                    <span style="font-weight: 800; letter-spacing: -1.2px;margin-bottom:10px">AssetCentral</span>
+                </div>
+            </div>
+
+            <div style="font-size: 15px;font-weight: 700;color: #94a3b8;text-transform: uppercase;letter-spacing: 3px;margin-top: 13px;display: flex;align-items: center;gap: 10px;opacity: 0.8;">
+                <span style="width: 20px; height: 1px; background: #7c3aed;"></span>
+                Admin Panel
+                <span style="width: 20px; height: 1px; background: #7c3aed;"></span>
+            </div>
+        </div>
+        <ul class="nav-links">
+            <li><a href="/admin/dashboard" class="active"><i class="fas fa-chart-pie"></i> Dashboard</a></li>
+            <li><a href="/admin/add-asset"><i class="fas fa-plus"></i> Add Asset</a></li>
+            <!--<li><a href="/admin/assets"><i class="fas fa-box"></i> Manage Assets</a></li>-->
+            <li><a href="/admin/view-users"><i class="fas fa-users"></i> View Users</a></li>
+            <li><a href="/admin/add-user"><i class="fas fa-user-plus"></i> Add User</a></li>
+            <li><a href="/admin/search-user"><i class="fas fa-search"></i> Search User</a></li>
+            <li><a href="/admin/issues"><i class="fas fa-ticket-alt"></i> View Issues</a></li>
+            <li><a href="/admin/profile"><i class="fas fa-user-circle"></i> Profile</a></li>
+        </ul>
+        <div class="sidebar-footer">
+            <a href="/login" class="logout-link"><i class="fas fa-sign-out-alt"></i>Logout</a>
+        </div>
+    </nav>
+
+    <main class="main-content">
+        <header class="top-bar">
+            <h2 style="margin: 0; font-size: 20px; font-weight: 700;">Welcome Admin!</h2>
+
+            <div class="top-bar-right">
+                <div class="search-container">
+                    <i class="fas fa-search search-icon"></i>
+                    <input type="text" id="assetSearch" placeholder="Filter assets..." onkeyup="filterTable()">
+                </div>
+
+                <div class="circle-profile"
+                     th:text="${user != null and user.name != null} ? ${user.name.substring(0,1)} : 'A'"
+                     title="View Profile"
+                     onclick="window.location.href='/admin/profile'"
+                     style="cursor:pointer;">
+                    A
+                </div>
+            </div>
+        </header>
+
+        <div class="content-area" >
+            <h2 style="margin-bottom: 25px;margin-top:1px; font-weight: 800; font-size: 28px;">System Overview</h2>
+
+            <!-- ANALYTICS STATS GRID -->
+            <section class="stats-grid" style="display:grid;grid-template-columns:repeat(4,1fr);gap:20px;margin-bottom:30px;">
+
+                <div class="stat-card total" style="background:white;border-radius:20px;overflow:hidden;border:1px solid #f3f4f6;box-shadow:0 4px 12px rgba(0,0,0,0.04);">
+                    <div class="card-header" style="background:linear-gradient(135deg,#621e82,#872bb1);padding:15px 20px;display:flex;justify-content:space-between;align-items:center;color:white;">
+                        <span style="font-size:12px;font-weight:800;text-transform:uppercase;letter-spacing:1px;">Total Assets</span>
+                        <i class="fas fa-boxes" style="font-size:18px;opacity:0.8;"></i>
+                    </div>
+                    <h3 style="margin:20px 20px 5px;font-size:36px;font-weight:800;color:#111827;" th:text="${#lists.size(assets)}">0</h3>
+                    <p style="margin:0 20px 20px;font-size:13px;color:#6b7280;">Registered in system</p>
+                </div>
+
+                <div class="stat-card" style="background:white;border-radius:20px;overflow:hidden;border:1px solid #f3f4f6;box-shadow:0 4px 12px rgba(0,0,0,0.04);">
+                    <div class="card-header" style="background:linear-gradient(135deg,#065f46,#10b981);padding:15px 20px;display:flex;justify-content:space-between;align-items:center;color:white;">
+                        <span style="font-size:12px;font-weight:800;text-transform:uppercase;letter-spacing:1px;">Resolved</span>
+                        <i class="fas fa-check-double" style="font-size:18px;opacity:0.8;"></i>
+                    </div>
+                    <h3 style="margin:20px 20px 5px;font-size:36px;font-weight:800;color:#111827;" th:text="${resolvedCount}">0</h3>
+                    <p style="margin:0 20px 20px;font-size:13px;color:#6b7280;">Issues closed</p>
+                </div>
+
+                <div class="stat-card" style="background:white;border-radius:20px;overflow:hidden;border:1px solid #f3f4f6;box-shadow:0 4px 12px rgba(0,0,0,0.04);">
+                    <div class="card-header" style="background:linear-gradient(135deg,#b45309,#f59e0b);padding:15px 20px;display:flex;justify-content:space-between;align-items:center;color:white;">
+                        <span style="font-size:12px;font-weight:800;text-transform:uppercase;letter-spacing:1px;">Pending</span>
+                        <i class="fas fa-clock" style="font-size:18px;opacity:0.8;"></i>
+                    </div>
+                    <h3 style="margin:20px 20px 5px;font-size:36px;font-weight:800;color:#111827;" th:text="${pendingCount}">0</h3>
+                    <p style="margin:0 20px 20px;font-size:13px;color:#6b7280;">Awaiting resolution</p>
+                </div>
+
+                <div class="stat-card" style="background:white;border-radius:20px;overflow:hidden;border:1px solid #f3f4f6;box-shadow:0 4px 12px rgba(0,0,0,0.04);">
+                    <div class="card-header" style="background:linear-gradient(135deg,#991b1b,#ef4444);padding:15px 20px;display:flex;justify-content:space-between;align-items:center;color:white;">
+                        <span style="font-size:12px;font-weight:800;text-transform:uppercase;letter-spacing:1px;">⚠ Delayed</span>
+                        <i class="fas fa-exclamation-triangle" style="font-size:18px;opacity:0.8;"></i>
+                    </div>
+                    <h3 style="margin:20px 20px 5px;font-size:36px;font-weight:800;color:#111827;" th:text="${delayedCount}">0</h3>
+                    <p style="margin:0 20px 20px;font-size:13px;color:#6b7280;">Auto-escalated (24h+)</p>
+                </div>
+
+            </section>
+
+            <!-- INFO ROW: Most Problematic Asset + System Users -->
+            <section style="display:grid;grid-template-columns:1fr 1fr;gap:20px;margin-bottom:30px;">
+
+                <div style="background:white;border-radius:20px;border:1px solid #f3f4f6;padding:25px;box-shadow:0 4px 12px rgba(0,0,0,0.04);">
+                    <div style="font-size:12px;font-weight:800;text-transform:uppercase;letter-spacing:1px;color:#6b7280;margin-bottom:10px;">Most Reported Asset</div>
+                    <div style="font-size:22px;font-weight:800;color:#6d28d9;" th:text="${mostProblematicAsset}">N/A</div>
+                    <div style="font-size:13px;color:#6b7280;margin-top:5px;">Based on issue descriptions</div>
+                </div>
+
+                <div style="background:white;border-radius:20px;border:1px solid #f3f4f6;padding:25px;box-shadow:0 4px 12px rgba(0,0,0,0.04);">
+                    <div style="font-size:12px;font-weight:800;text-transform:uppercase;letter-spacing:1px;color:#6b7280;margin-bottom:10px;">System Users</div>
+                    <div style="font-size:22px;font-weight:800;color:#6d28d9;" th:text="${userCount}">0</div>
+                    <div style="font-size:13px;color:#6b7280;margin-top:5px;">Total registered accounts</div>
+                </div>
+
+            </section>
+            <div class="table-card">
+                <table class="styled-table">
+                    <thead>
+                    <tr>
+                        <th>#</th>
+                        <th>ASSET NAME</th>
+                        <th>SERIAL NO</th>
+                        <th>EMPLOYEE ID</th>
+                        <th>ACTION</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr th:each="a, stat : ${assets}">
+                        <td th:text="${stat.count}" style="color: var(--text-muted); font-weight: 600;"></td>
+                        <td th:text="${a.name}" style="font-weight: 700;"></td>
+                        <td th:text="${a.serialNumber}" style="font-family: monospace; color: var(--text-muted);font-weight: bold;font-size:16px;"></td>
+                        <td><span class="badge" th:text="${a.assignedTo}"></span></td>
+                        <td>
+                            <a th:href="@{'/admin/edit-asset/' + ${a.id}}" class="action-btn edit-btn">
+                                Edit
+                            </a>
+                            <a th:href="@{'/admin/delete-asset/' + ${a.id}}" class="action-btn delete-btn" onclick="return confirm('Delete?')">
+                                Delete
+                            </a>
+                        </td>
+                    </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </main>
+</div>
+
+<script>
+    function filterTable() {
+        const input = document.getElementById("assetSearch");
+        const filter = input.value.toLowerCase();
+        const table = document.querySelector(".styled-table");
+        const tr = table.getElementsByTagName("tr");
+
+        for (let i = 1; i < tr.length; i++) {
+            const row = tr[i];
+            row.style.display = row.textContent.toLowerCase().includes(filter) ? "" : "none";
+        }
+    }
+</script>
+</body>
+</html>

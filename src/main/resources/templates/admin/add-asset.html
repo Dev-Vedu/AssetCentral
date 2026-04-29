@@ -1,0 +1,360 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Add Asset | AssetCentral</title>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+    <style>
+        :root {
+            --sidebar-bg: #0b0e14;
+            --primary: #6d28d9;
+            --accent: #a855f7;
+            --bg-body: #f9fafb;
+            --text-main: #111827;
+            --text-muted: #6b7280;
+            --border-color: #f3f4f6;
+        }
+
+        html, body {
+            margin: 0;
+            padding: 0;
+            height: 100vh;
+            overflow: hidden;
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            background-color: var(--bg-body);
+        }
+
+        .dashboard-container {
+            display: flex;
+            height: 100vh;
+            width: 100vw;
+        }
+
+        /* --- SIDEBAR (Mirrored from Dashboard) --- */
+        .sidebar {
+            width: 260px;
+            background: var(--sidebar-bg);
+            height: 100%;
+            color: white;
+            display: flex;
+            flex-direction: column;
+            padding: 0;
+            flex-shrink: 0;
+        }
+
+        .logo-area { padding: 0 25px 20px; }
+        .logo-placeholder {
+            width: 40px;
+            height: 40px;
+            background: var(--primary);
+            border-radius: 10px;
+            margin-bottom: 15px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        .panel-title { font-size: 20px; font-weight: 800; color: white; }
+
+        .nav-links { list-style: none; padding: 0; margin: 0; flex-grow: 1; }
+        .nav-links li a {
+            color: #94a3b8;
+            text-decoration: none;
+            padding: 12px 25px;
+            margin: 4px 15px;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            border-radius: 12px;
+            font-weight: 600;
+            font-size: 16px;
+            transition: 0.3s;
+        }
+
+        .nav-links li a:hover { background: #252525; color: white; }
+        .nav-links li a.active { background: rgba(255, 255, 255, 0.05); color: white; border: 1px solid rgba(255,255,255,0.1); }
+
+.sidebar-footer {
+    margin-top: auto;
+    padding: 20px 25px;
+    border-top: 1px solid rgba(255,255,255,0.05);
+
+}
+
+   .logout-link {
+            color: #94a3b8;
+            text-decoration: none;
+            font-weight: 600;
+            font-size: 14px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            padding: 10px;
+            border-radius: 8px;
+            transition: 0.3s;
+        }
+        .logout-link:hover { color: #ef4444; }
+
+
+        /* --- MAIN CONTENT --- */
+        .main-content {
+            flex-grow: 1;
+            display: flex;
+            flex-direction: column;
+            height: 100vh;
+            overflow-y: auto;
+        }
+
+        .top-bar {
+            height: 80px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0 50px;
+            border-bottom: 1px solid var(--border-color);
+            background: white;
+            flex-shrink: 0;
+        }
+
+        .page-title { font-weight: 700; font-size: 20px; color: var(--text-main); }
+
+        /* --- FORM STYLING --- */
+        .content-area {
+            padding: 50px;
+            display: flex;
+            justify-content: center;
+        }
+
+        .form-card {
+            background: white;
+            padding: 40px;
+            border-radius: 24px;
+            border: 1px solid var(--border-color);
+            box-shadow: 0 10px 25px rgba(0,0,0,0.03);
+            width: 100%;
+            max-width: 500px;
+            animation: fadeIn 0.5s ease;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .form-card h2 {
+            margin: 0 0 10px 0;
+            font-size: 24px;
+            font-weight: 800;
+            color: var(--text-main);
+        }
+
+        .form-card p {
+            color: var(--text-muted);
+            font-size: 14px;
+            margin-bottom: 30px;
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        .form-group label {
+            display: block;
+            font-size: 13px;
+            font-weight: 700;
+            margin-bottom: 8px;
+            color: var(--text-main);
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .form-group input {
+            width: 100%;
+            padding: 14px 18px;
+            border: 1px solid var(--border-color);
+            border-radius: 12px;
+            font-size: 15px;
+            font-family: inherit;
+            background: #f9fafb;
+            transition: 0.3s;
+            box-sizing: border-box;
+        }
+
+        .form-group input:focus {
+            outline: none;
+            border-color: var(--primary);
+            background: white;
+            box-shadow: 0 0 0 4px rgba(109, 40, 217, 0.1);
+        }
+
+        .btn-submit {
+            width: 100%;
+            background: var(--primary);
+            color: white;
+            padding: 16px;
+            border: none;
+            border-radius: 12px;
+            font-size: 16px;
+            font-weight: 700;
+            cursor: pointer;
+            transition: 0.3s;
+            margin-top: 10px;
+        }
+
+        .btn-submit:hover {
+            background: #5b21b6;
+            transform: translateY(-2px);
+            box-shadow: 0 10px 15px -3px rgba(109, 40, 217, 0.3);
+        }
+
+        .cancel-link {
+            display: block;
+            text-align: center;
+            margin-top: 20px;
+            text-decoration: none;
+            color: var(--text-muted);
+            font-size: 14px;
+            font-weight: 600;
+        }
+
+        .cancel-link:hover { color: #ef4444; }
+
+        /* Container for the whole logo section */
+.logo-area {
+    padding: 25px 25px 15px 25px;
+}
+
+.brand-container {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+
+.brand-content {
+    font-size: 24px;
+    display: flex;
+    align-items: center;
+    /* The Gradient Magic */
+    background: linear-gradient(135deg, #ffffff 30%, #a855f7 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+}
+
+.brand-icon {
+    margin-right: 10px;
+    font-size: 22px;
+    /* Ensures the icon also takes the gradient */
+    -webkit-text-fill-color: transparent;
+}
+
+.brand-text {
+    font-weight: 800;
+    letter-spacing: -1.2px;
+    margin-bottom: 10px;
+}
+
+/* Subtitle "Admin Panel" Styles */
+.panel-subtitle-container {
+    font-size: 15px;
+    font-weight: 700;
+    color: #94a3b8;
+    text-transform: uppercase;
+    letter-spacing: 3px;
+    margin-top: 13px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    opacity: 0.8;
+}
+
+.line-accent {
+    width: 20px;
+    height: 1px;
+    background: #7c3aed;
+}
+
+.subtitle-text {
+    white-space: nowrap;
+}
+
+    </style>
+</head>
+<body>
+
+<div class="dashboard-container">
+    <nav class="sidebar">
+        <div class="logo-area">
+            <div class="brand-container">
+                <div class="brand-content">
+                    <i class="fa-solid fa-box-open brand-icon"></i>
+                    <span class="brand-text">AssetCentral</span>
+                </div>
+            </div>
+
+            <div class="panel-subtitle-container">
+                <span class="line-accent"></span>
+                <span class="subtitle-text">Admin Panel</span>
+                <span class="line-accent"></span>
+            </div>
+        </div>
+        <ul class="nav-links">
+            <li><a href="/admin/dashboard"><i class="fas fa-chart-pie"></i> Dashboard</a></li>
+            <li><a href="/admin/add-asset" class="active"><i class="fas fa-plus"></i> Add Asset</a></li>
+            <!--<li><a href="/admin/assets" ><i class="fas fa-box"></i> Manage Assets</a></li>-->
+            <li><a href="/admin/view-users"><i class="fas fa-users"></i> View Users</a></li>
+            <li><a href="/admin/add-user"><i class="fas fa-user-plus"></i> Add User</a></li>
+            <li><a href="/admin/search-user"><i class="fas fa-search"></i> Search User</a></li>
+            <li><a href="/admin/issues"><i class="fas fa-ticket-alt"></i> View Issues</a></li>
+            <li><a href="/admin/profile"><i class="fas fa-user-circle"></i> Profile</a></li>
+        </ul>
+        <div class="sidebar-footer">
+            <a href="/login" class="logout-link"><i class="fas fa-sign-out-alt"></i> Logout</a>
+        </div>
+    </nav>
+
+    <main class="main-content">
+        <header class="top-bar">
+            <div class="page-title">Inventory Management</div>
+        </header>
+
+        <div class="content-area">
+            <div class="form-card">
+                <h2>Add New Asset</h2>
+                <p>Register a new device into the company inventory system.</p>
+
+                <form action="/admin/add-asset" method="post">
+                    <div class="form-group">
+                        <label>Asset Name</label>
+                        <input type="text" name="name" placeholder="e.g. MacBook Pro M3" required>
+                    </div>
+
+                    <div class="form-group">
+                        <label>Serial Number</label>
+                        <input type="text" name="serialNumber" placeholder="SN-XXXX-XXXX" required>
+                    </div>
+
+                    <div class="form-group">
+                        <label>Assigned To (User ID)</label>
+                        <input type="text" name="assignedTo" placeholder="Leave empty if unassigned">
+                    </div>
+
+                    <button type="submit" class="btn-submit">Deploy Asset</button>
+                </form>
+
+                <a href="/admin/dashboard" class="cancel-link">Discard and Go Back</a>
+            </div>
+        </div>
+    </main>
+</div>
+
+<script>
+    // Set current date
+    const d = new Date();
+    document.getElementById("currentDate").innerText = d.toLocaleDateString('en-US', {
+        weekday: 'short', year: 'numeric', month: 'short', day: 'numeric'
+    });
+</script>
+
+</body>
+</html>

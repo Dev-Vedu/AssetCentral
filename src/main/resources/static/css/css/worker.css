@@ -1,0 +1,492 @@
+/* --- Root Variables (Updated to Lavender, White, & Purple)@import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap'); --- */
+
+/* ==========================================================================
+   1. VARIABLES & RECOVERY
+   ========================================================================== */
+:root {
+    --sidebar-bg: #0b0e14;
+    --primary: #7c3aed;
+    --primary-hover: #6d28d9;
+    --accent: #a855f7;
+    --bg-body: #ffffff;
+    --text-main: #111827;
+    --text-muted: #6b7280;
+    --border-color: #f3f4f6;
+    --topbar-bg: #F3E8FF;
+}
+
+/* --- Global Reset --- */
+html, body {
+    margin: 0;
+    padding: 0;
+    height: 100vh;
+    overflow: hidden;
+    font-family: 'Plus Jakarta Sans', sans-serif;
+    background-color: var(--bg-body);
+    color: var(--text-main);
+}
+
+/* ==========================================================================
+   2. LAYOUT STRUCTURE
+   ========================================================================== */
+.dashboard-container {
+    display: flex;
+    height: 100vh;
+    width: 100vw;
+}
+
+.main-content {
+    flex-grow: 1;
+    display: flex;
+    flex-direction: column;
+    height: 100vh;
+    overflow: hidden;
+}
+
+.content-area {
+    flex-grow: 1;
+    padding: 40px 50px;
+    overflow-y: auto;
+}
+
+/* ==========================================================================
+   3. SIDEBAR NAVIGATION
+   ========================================================================== */
+.sidebar {
+    width: 260px;
+    background: var(--sidebar-bg);
+    height: 100%;
+    color: white;
+    display: flex;
+    flex-direction: column;
+    padding: 0;
+    flex-shrink: 0;
+}
+
+.logo-area {
+    padding: 0 25px 40px;
+}
+
+.logo-placeholder {
+    width: 40px;
+    height: 40px;
+    background: var(--primary);
+    border-radius: 10px;
+    margin-bottom: 15px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.panel-title {
+    font-size: 20px;
+    font-weight: 800;
+}
+
+.nav-links {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    flex-grow: 1;
+}
+
+.nav-links li a {
+    color: #94a3b8;
+    text-decoration: none;
+    padding: 12px 25px;
+    margin: 4px 15px;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    border-radius: 12px;
+    font-weight: 600;
+    font-size: 16px;
+    transition: 0.3s;
+}
+
+.nav-links li a:hover { background: #252525; color: white; }
+.nav-links li a.active { background: rgba(255, 255, 255, 0.05); color: white; }
+
+.sidebar-footer {
+            margin-top: auto;
+            padding: 10px 10px;
+            border-top: 1px solid rgba(255,255,255,0.05);
+            }
+
+        .logout-link {
+            color: #94a3b8;
+            text-decoration: none;
+            font-weight: 600;
+            font-size: 14px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            padding: 10px;
+            border-radius: 8px;
+            transition: 0.3s;
+        }
+        .logout-link:hover { color: #ef4444; }
+
+/* ==========================================================================
+   4. TOP BAR & SEARCH
+   ========================================================================== */
+.top-bar {
+    height: 80px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0 50px;
+    border-bottom: 1px solid var(--border-color);
+    background: var(--topbar-bg);
+    flex-shrink: 0;
+
+}
+
+/* This ensures the search bar and profile sit side-by-side */
+.top-bar-right {
+    display: flex;
+    align-items: center;
+    gap: 20px; /* Space between search and profile */
+}
+.welcome-msg {
+    font-weight: 700;
+    font-size: 20px;
+}
+
+.search-container {
+    position: relative;
+    width: 300px;
+}
+
+.search-icon {
+    position: absolute;
+    left: 18px;
+    top: 50%;
+    transform: translateY(-50%);
+    color: var(--text-muted);
+    pointer-events: none;
+}
+
+.search-container input {
+    width: 100%;
+    padding: 12px 20px 12px 50px;
+    border-radius: 30px;
+    border: 1px solid var(--border-color);
+    background: #f9fafb;
+    outline: none;
+    font-family: inherit;
+    transition: 0.3s;
+    box-sizing: border-box;
+}
+
+.search-container input:focus {
+    border-color: var(--primary);
+    background: white;
+    box-shadow: 0 0 0 4px rgba(109, 40, 217, 0.1);
+}
+
+/* ==========================================================================
+   5. COMPONENTS (PROFILE, STATS, TABLES)
+   ========================================================================== */
+
+/* --- Profile Circle --- */
+.profile-container {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    margin-left: 20px;
+}
+
+.circle-profile {
+    width: 45px;
+    height: 45px;
+    background: linear-gradient(135deg, var(--primary), var(--accent));
+    color: white;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: 700;
+    font-size: 18px;
+    text-transform: uppercase;
+    box-shadow: 0 4px 10px rgba(109, 40, 217, 0.2);
+    border: 2px solid white;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.circle-profile:hover {
+    transform: scale(1.05);
+    box-shadow: 0 6px 15px rgba(109, 40, 217, 0.3);
+}
+
+/* --- Stats Grid --- */
+.stats-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 25px;
+    margin-bottom: 35px;
+}
+
+.stat-card {
+    background: white;
+    padding: 25px;
+    border-radius: 20px;
+    border: 1px solid var(--border-color);
+    box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.04);
+}
+
+.stat-card span {
+    color: var(--text-muted);
+    font-size: 13px;
+    font-weight: 700;
+    text-transform: uppercase;
+}
+
+.stat-card h3 {
+    margin: 10px 0 0;
+    font-size: 36px;
+    font-weight: 800;
+    color: var(--primary);
+}
+
+/* --- Data Tables --- */
+.table-card {
+    background: white;
+    border-radius: 20px;
+    border: 1px solid var(--border-color);
+    overflow: hidden;
+    box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.04);
+}
+
+.styled-table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+.styled-table th {
+    background: #fafafa;
+    padding: 20px 25px;
+    text-align: left;
+    font-size: 13px;
+    font-weight: 700;
+    color: var(--text-muted);
+    border-bottom: 1px solid var(--border-color);
+}
+
+.styled-table td {
+    padding: 20px 25px;
+    border-bottom: 1px solid var(--border-color);
+    font-size: 14px;
+}
+
+.badge {
+    background: #f5f3ff;
+    color: var(--primary);
+    padding: 6px 14px;
+    border-radius: 8px;
+    font-weight: 700;
+    font-size: 12px;
+}
+
+.empty-state {
+    text-align: center;
+    padding: 40px;
+    color: var(--text-muted);
+}
+
+/* --- Updated Stats Grid Layout --- */
+.stats-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 30px;
+    margin-bottom: 40px;
+}
+
+.stat-card {
+    background: white;
+    padding: 0; /* Remove default padding to allow header color */
+    border-radius: 20px;
+    overflow: hidden;
+    border: 1px solid var(--border-color);
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.05);
+    transition: transform 0.3s ease;
+}
+
+.stat-card:hover {
+    transform: translateY(-5px);
+}
+
+/* Header with Gradient */
+.card-header {
+    padding: 15px 25px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    color: white;
+}
+
+/* This ensures "Assigned", "In Progress", and "Resolved" are pure white */
+.card-header span {
+    color: #ffffff !important;
+    font-size: 12px;
+    font-weight: 800;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    opacity: 1; /* Ensures it's not faded */
+}
+
+/* This makes the icons next to the text white as well */
+.card-header i {
+    color: #ffffff;
+    font-size: 18px;
+    opacity: 0.9;
+}
+
+/* Color Variations using your requested color #872bb1 */
+
+/* Assigned: Solid Deep Purple to your color */
+/* Color Variations using your requested color #872bb1 */
+
+/* Assigned: Solid Deep Purple to your color */
+.stat-card.assigned .card-header {
+    background: linear-gradient(135deg, #621e82, #872bb1);
+}
+
+/* In Progress: Your color to a slightly brighter magenta */
+.stat-card.progress .card-header {
+    background: linear-gradient(135deg, #872bb1, #b53cd9);
+}
+
+/* Resolved: Your color to a vibrant violet */
+.stat-card.resolved .card-header {
+    background: linear-gradient(135deg, #872bb1, #6d28d9);
+}
+
+.card-header span {
+    font-size: 12px;
+    font-weight: 800;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+}
+
+.card-header i {
+    font-size: 18px;
+    opacity: 0.8;
+}
+
+/* Card Body */
+.stat-card h3 {
+    margin: 20px 25px 5px;
+    font-size: 42px;
+    font-weight: 800;
+    color: var(--text-main);
+}
+
+.card-subtitle {
+    margin: 0 25px 25px;
+    font-size: 13px;
+    color: var(--text-muted);
+    font-weight: 500;
+}
+
+/* --- Update Column Styling --- */
+
+/* Container for the form to keep input and button aligned */
+.update-form {
+    display: flex;
+    align-items: center;
+    gap: 10px; /* Space between input and button */
+}
+
+/* Styled Input Field */
+.update-input {
+    padding: 10px 14px;
+    border: 1.5px solid #e5e7eb; /* Soft light gray border */
+    border-radius: 10px;
+    font-size: 13px;
+    font-family: 'Plus Jakarta Sans', sans-serif;
+    outline: none;
+    transition: all 0.3s ease;
+    width: 180px;
+    color: var(--text-main);
+    background-color: #f9fafb;
+}
+
+/* Glow and border color change on click/focus */
+.update-input:focus {
+    border-color: #872bb1;
+    background-color: #ffffff;
+    box-shadow: 0 0 0 4px rgba(135, 43, 177, 0.1);
+}
+
+/* Styled Send Button */
+.btn-send {
+    background-color: #872bb1;
+    color: white;
+    border: none;
+    padding: 10px 16px;
+    border-radius: 10px;
+    font-size: 12px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    cursor: pointer;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+/* Button Hover State */
+.btn-send:hover {
+    background-color: #6d2291; /* Slightly darker purple */
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(135, 43, 177, 0.25);
+}
+
+/* Button Press State */
+.btn-send:active {
+    transform: translateY(0);
+}
+
+/* Styling the Status Badge inside the table to look better */
+.badge-pending {
+    background: #fff7ed;
+    color: #c2410c;
+    padding: 6px 12px;
+    border-radius: 20px;
+    font-weight: 700;
+    font-size: 11px;
+    text-transform: uppercase;
+    border: 1px solid #ffedd5;
+}
+
+
+/* --- Dynamic Status Badges --- */
+
+/* Pending / High Alert (Red/Orange) */
+.badge-pending {
+    background-color: #fef2f2; /* Very light red */
+    color: #dc2626;            /* Strong red */
+    padding: 6px 14px;
+    border-radius: 8px;
+    font-weight: 700;
+    font-size: 12px;
+    border: 1px solid #fee2e2;
+    text-transform: uppercase;
+    display: inline-block;
+}
+
+/* Resolved / Success (Green) */
+.badge-resolved {
+    background-color: #f0fdf4; /* Very light green */
+    color: #16a34a;            /* Strong green */
+    padding: 6px 14px;
+    border-radius: 8px;
+    font-weight: 700;
+    font-size: 12px;
+    border: 1px solid #dcfce7;
+    text-transform: uppercase;
+    display: inline-block;
+}

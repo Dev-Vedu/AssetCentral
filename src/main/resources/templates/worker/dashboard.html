@@ -1,0 +1,271 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Worker Dashboard | AssetPro</title>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" th:href="@{/css/css/worker.css}">
+    <style>
+        /* --- Update Column Styling --- */
+
+        /* Container for the form to keep input and button aligned */
+        .update-form {
+            display: flex;
+            align-items: center;
+            gap: 10px; /* Space between input and button */
+        }
+
+        /* Styled Input Field */
+        .update-input {
+            padding: 10px 14px;
+            border: 1.5px solid #e5e7eb; /* Soft light gray border */
+            border-radius: 10px;
+            font-size: 13px;
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            outline: none;
+            transition: all 0.3s ease;
+            width: 180px;
+            color: var(--text-main);
+            background-color: #f9fafb;
+        }
+
+        /* Glow and border color change on click/focus */
+        .update-input:focus {
+            border-color: #872bb1;
+            background-color: #ffffff;
+            box-shadow: 0 0 0 4px rgba(135, 43, 177, 0.1);
+        }
+
+        /* Styled Send Button */
+        .btn-send {
+            background-color: #872bb1;
+            color: white;
+            border: none;
+            padding: 10px 16px;
+            border-radius: 10px;
+            font-size: 12px;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            cursor: pointer;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        /* Button Hover State */
+        .btn-send:hover {
+            background-color: #6d2291; /* Slightly darker purple */
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(135, 43, 177, 0.25);
+        }
+
+        /* Button Press State */
+        .btn-send:active {
+            transform: translateY(0);
+        }
+
+        /* Styling the Status Badge inside the table to look better */
+        .badge-pending {
+            background: #fff7ed;
+            color: #c2410c;
+            padding: 6px 12px;
+            border-radius: 20px;
+            font-weight: 700;
+            font-size: 11px;
+            text-transform: uppercase;
+            border: 1px solid #ffedd5;
+        }
+        /* --- Force Color Update --- */
+
+/* GREEN for Resolved */
+.badge-resolved {
+    background-color: #dcfce7 !important;
+    color: #15803d !important;
+    padding: 6px 14px !important;
+    border-radius: 8px !important;
+    font-weight: 800 !important;
+    font-size: 11px !important;
+    border: 1px solid #bbf7d0 !important;
+    text-transform: uppercase !important;
+    display: inline-block !important;
+}
+
+/* RED for Pending/In Progress */
+.badge-pending {
+    background-color: #fee2e2 !important;
+    color: #b91c1c !important;
+    padding: 6px 14px !important;
+    border-radius: 8px !important;
+    font-weight: 800 !important;
+    font-size: 11px !important;
+    border: 1px solid #fecaca !important;
+    text-transform: uppercase !important;
+    display: inline-block !important;
+}
+    </style>
+</head>
+<body>
+
+<div class="dashboard-container">
+    <nav class="sidebar">
+        <div class="logo-area" style="padding: 25px 25px 15px 25px;">
+            <div style="display: flex; align-items: center; gap: 12px;">
+                <div style="
+            font-size: 24px;
+            background: linear-gradient(135deg, #ffffff 30%, #a855f7 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            display: flex;
+            align-items: center;">
+                    <i class="fa-solid fa-box-open" style="margin-right: 10px; font-size: 22px;"></i>
+                    <span style="font-weight: 800; letter-spacing: -1.2px;margin-bottom:10px">AssetCentral</span>
+                </div>
+            </div>
+
+            <div style="font-size: 15px;font-weight: 700;color: #94a3b8;text-transform: uppercase;letter-spacing: 3px;margin-top: 13px;display: flex;align-items: center;gap: 10px;opacity: 0.8;">
+                <span style="width: 20px; height: 1px; background: #7c3aed;"></span>
+                Worker Panel
+                <span style="width: 20px; height: 1px; background: #7c3aed;"></span>
+            </div>
+        </div>
+        <ul class="nav-links">
+            <li><a href="/worker/dashboard" class="active"><i class="fas fa-chart-pie"></i> Dashboard</a></li>
+            <li><a href="/worker/profile"><i class="fas fa-user-circle"></i> Profile</a></li>
+        </ul>
+        <div class="sidebar-footer">
+            <a href="/logout" class="logout-link"><i class="fas fa-sign-out-alt"></i> Logout</a>
+        </div>
+    </nav>
+
+    <main class="main-content">
+        <header class="top-bar">
+            <div class="welcome-msg">Welcome, <span th:text="${workerName != null ? workerName : 'Worker'}">Maintenance Team</span>!</div>
+
+            <div class="top-bar-right">
+                <div class="search-container">
+                    <i class="fas fa-search search-icon"></i>
+                    <input type="text" id="issueSearch" placeholder="Filter tasks..." onkeyup="filterTable()">
+                </div>
+
+                <div class="circle-profile"
+                     th:text="${user != null and user.name != null} ? ${user.name.substring(0,1)} : 'W'"
+                     title="View Profile"
+                     onclick="window.location.href='/worker/profile'"
+                     style="cursor:pointer;">
+                    A
+                </div>
+            </div>
+        </header>
+
+        <div class="content-area">
+            <div style="margin-bottom: 30px;">
+                <h2 style="margin: 0; font-size: 28px;">Maintenance Queue</h2>
+                <p style="color: var(--text-muted); margin: 5px 0 0;">You have <span th:text="${#lists.size(issues)}" style="color: var(--primary); font-weight: 700;">0</span> assigned issues.</p>
+            </div>
+
+            <section class="stats-grid">
+                <div class="stat-card assigned">
+                    <div class="card-header">
+                        <span>Assigned</span>
+                        <i class="fas fa-tasks"></i>
+                    </div>
+                    <h3 th:text="${#lists.size(issues)}">0</h3>
+                    <p class="card-subtitle">Assigned Tasks</p>
+                </div>
+
+                <div class="stat-card resolved" style="">
+                    <div class="card-header">
+                        <span>Resolved</span>
+                        <i class="fas fa-check-double"></i>
+                    </div>
+                    <h3 th:text="${resolvedCount}">0</h3>
+                    <p class="card-subtitle">Completed Tasks</p>
+                </div>
+
+                <!-- <div class="stat-card progress">
+                    <div class="card-header">
+                        <span>In Progress</span>
+                        <i class="fas fa-spinner fa-spin"></i>
+                    </div>
+                    <h3 th:text="${inProgressCount}">0</h3>
+                    <p class="card-subtitle">Active Maintenance</p>
+                </div>-->
+
+
+            </section>
+
+            <section class="table-card">
+                <table class="styled-table" id="issueTable">
+                    <thead>
+                    <tr>
+                        <th style="width: 50px;">#</th>
+                        <th>Employee</th>
+                        <th>Description</th>
+                        <th>Status</th>
+                        <th>Update</th> <!-- message -->
+                        <th style="text-align: right;">Action</th>
+                    </tr>
+                    </thead>
+
+                    <tbody>
+                    <tr th:each="i, stat : ${issues}">
+
+                        <td th:text="${stat.count}">1</td>
+
+                        <!-- Employee -->
+                        <td th:text="${i.employee.employeeId}">EMP101</td>
+
+                        <!-- Description -->
+                        <td th:text="${i.description}">Issue</td>
+
+                        <!-- Status -->
+                        <td>
+                            <span th:text="${i.status}"
+                            th:class="${i.status != null && i.status.toLowerCase() == 'resolved' ? 'badge-resolved' : 'badge-pending'}">
+                                Pending
+    </span>
+                        </td>
+
+                        <td>
+                            <form th:action="@{'/worker/updateMessage/' + ${i.id}}" method="post" class="update-form">
+                                <input type="text"
+                                       name="message"
+                                       placeholder="Enter update..."
+                                       th:value="${i.workerMessage}"
+                                       class="update-input">
+
+                                <button type="submit" class="btn-send">Send</button>
+                            </form>
+                        </td>
+
+                        <td style="text-align: right;">
+                            <a th:href="@{'/worker/update/' + ${i.id}}" class="btn-resolve">Resolve</a>
+                        </td>
+
+                    </tr>
+                    </tbody>
+                </table>
+            </section>
+
+        </div>
+    </main>
+</div>
+
+<script>
+    function filterTable() {
+        const input = document.getElementById("issueSearch");
+        const filter = input.value.toLowerCase();
+        const table = document.getElementById("issueTable");
+        const tr = table.getElementsByTagName("tr");
+        for (let i = 1; i < tr.length; i++) {
+            const row = tr[i];
+            row.style.display = row.textContent.toLowerCase().includes(filter) ? "" : "none";
+        }
+    }
+</script>
+
+</body>
+</html>

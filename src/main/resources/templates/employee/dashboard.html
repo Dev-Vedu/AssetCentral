@@ -1,0 +1,482 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Employee Dashboard | AssetPro</title>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+    <style>
+        :root {
+            --sidebar-bg: #0b0e14; /* Same as Admin */
+            --primary: #6d28d9;    /* Same as Admin */
+            --accent: #a855f7;
+            --bg-body: #ffffff;
+            --text-main: #111827;
+            --text-muted: #6b7280;
+            --border-color: #f3f4f6;
+        }
+
+        /* --- PREVENT GLOBAL SCROLL --- */
+        html, body {
+            margin: 0;
+            padding: 0;
+            height: 100vh;
+            overflow: hidden;
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            background-color: var(--bg-body);
+        }
+
+        .dashboard-container {
+            display: flex;
+            height: 100vh;
+            width: 100vw;
+        }
+
+        /* --- SIDEBAR --- */
+        .sidebar {
+            width: 260px;
+            background: var(--sidebar-bg);
+            height: 100%;
+            color: white;
+            display: flex;
+            flex-direction: column;
+            padding: 0;
+            flex-shrink: 0;
+        }
+
+        .logo-area { padding: 0 25px 40px; }
+        .logo-placeholder {
+            width: 40px;
+            height: 40px;
+            background: var(--primary);
+            border-radius: 10px;
+            margin-bottom: 15px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        .panel-title { font-size: 20px; font-weight: 800; color: white; }
+
+        .nav-links { list-style: none; padding: 0; margin: 0; flex-grow: 1; }
+        .nav-links li a {
+            color: #94a3b8;
+            text-decoration: none;
+            padding: 12px 25px;
+            margin: 4px 15px;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            border-radius: 12px;
+            font-weight: 600;
+            font-size: 16px;
+        }
+
+        .nav-links li a.active { background: rgba(255, 255, 255, 0.05); color: white; }
+        .nav-links li a:hover { background: #252525; }
+
+        .sidebar-footer {
+            margin-top: auto;
+            padding: 10px 10px;
+            border-top: 1px solid rgba(255,255,255,0.05);
+             }
+
+        .logout-link {
+            color: #94a3b8;
+            text-decoration: none;
+            font-weight: 600;
+            font-size: 14px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            padding: 10px;
+            border-radius: 8px;
+            transition: 0.3s;
+        }
+        .logout-link:hover { color: #ef4444; }
+
+        /* --- UPDATED PROFILE CIRCLE --- */
+.profile-container {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    margin-left: 20px;
+}
+
+       .circle-profile {
+    width: 45px;
+    height: 45px;
+    background: linear-gradient(135deg, var(--primary), var(--accent));
+    color: white;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: 700;
+    font-size: 18px;
+    text-transform: uppercase;
+    box-shadow: 0 4px 10px rgba(109, 40, 217, 0.2);
+    border: 2px solid white;
+    cursor: pointer;
+    transition: all 0.3s ease;
+        }
+
+        .circle-profile:hover {
+             box-shadow: 0 6px 15px rgba(109, 40, 217, 0.3);
+        }
+        /* --- MAIN CONTENT --- */
+        .main-content {
+            flex-grow: 1;
+            display: flex;
+            flex-direction: column;
+            height: 100vh;
+            overflow: hidden;
+        }
+
+        /* --- TOP BAR --- */
+        .top-bar {
+            height: 80px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0 50px;
+            border-bottom: 1px solid var(--border-color);
+            background: #F3E8FF; /* Same Admin Purple Tint */
+            flex-shrink: 0;
+        }
+
+        .welcome-msg { font-weight: 700; font-size: 20px; }
+
+        .search-container {
+            position: relative;
+            width: 300px;
+        }
+
+        .search-icon {
+            position: absolute;
+            left: 18px;
+            top: 50%;
+            transform: translateY(-50%);
+            color: var(--text-muted);
+            pointer-events: none;
+        }
+
+        .search-container input {
+            width: 100%;
+            padding: 12px 20px 12px 50px;
+            border-radius: 30px;
+            border: 1px solid var(--border-color);
+            background: #f9fafb;
+            outline: none;
+            font-family: inherit;
+            transition: 0.3s;
+            box-sizing: border-box;
+        }
+
+        .search-container input:focus {
+            border-color: var(--primary);
+            background: white;
+            box-shadow: 0 0 0 4px rgba(109, 40, 217, 0.1);
+        }
+
+        .user-profile-mini {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background: #e2e8f0;
+            overflow: hidden;
+            margin-left: 20px;
+            background-image: url('css/images/profileimage.jpg');
+            background-size: cover;
+        }
+
+        /* --- CONTENT BODY --- */
+        .content-area {
+            flex-grow: 1;
+            padding: 40px 50px;
+            overflow-y: auto;
+        }
+
+
+
+/* ==========================================================================
+   STATS GRID & CARDS
+   ========================================================================== */
+.stats-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 25px;
+    margin-bottom: 35px;
+}
+
+.stat-card {
+    background: white;
+    border-radius: 20px;
+    overflow: hidden; /* Important for the header color to stay inside corners */
+    border: 1px solid var(--border-color);
+    box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.04);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.stat-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 15px 25px -5px rgba(0, 0, 0, 0.08);
+}
+
+/* --- Card Header (Gradient Bar) --- */
+.card-header {
+    padding: 15px 20px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    color: white;
+}
+
+/* Color Variations using your requested #872bb1 */
+.stat-card.total .card-header {
+    background: linear-gradient(135deg, #621e82, #872bb1);
+}
+.stat-card.users .card-header {
+    background: linear-gradient(135deg, #872bb1, #a855f7);
+}
+.stat-card.issues .card-header {
+    background: linear-gradient(135deg, #ef4444, #b91c1c);
+}
+
+.card-header span {
+    font-size: 12px;
+    font-weight: 800;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    color: #ffffff; /* Explicitly white */
+}
+
+.card-header i {
+    font-size: 18px;
+    opacity: 0.8;
+    color: #ffffff;
+}
+
+/* --- Card Content --- */
+.stat-card h3 {
+    margin: 20px 20px 5px;
+    font-size: 36px;
+    font-weight: 800;
+    color: var(--text-main);
+}
+
+.card-subtitle {
+    margin: 0 20px 20px;
+    font-size: 13px;
+    color: var(--text-muted);
+    font-weight: 500;
+}
+        /* --- TABLE --- */
+        .table-card {
+            background: white;
+            border-radius: 20px;
+            border: 1px solid var(--border-color);
+            overflow: hidden;
+            box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.04);
+        }
+
+        .styled-table { width: 100%; border-collapse: collapse; }
+        .styled-table th {
+            background: #fafafa;
+            padding: 20px 25px;
+            text-align: left;
+            font-size: 13px;
+            font-weight: 700;
+            color: var(--text-muted);
+            border-bottom: 1px solid var(--border-color);
+        }
+
+        .styled-table td { padding: 20px 25px; border-bottom: 1px solid var(--border-color); font-size: 14px; }
+        .badge { background: #f5f3ff; color: var(--primary); padding: 6px 14px; border-radius: 8px; font-weight: 700; font-size: 12px; }
+
+        .empty-state { text-align: center; padding: 40px; color: var(--text-muted); }
+        /* Container for the whole logo section */
+.logo-area {
+    padding: 25px 25px 15px 25px;
+}
+
+.brand-container {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+
+.brand-content {
+    font-size: 24px;
+    display: flex;
+    align-items: center;
+    /* The Gradient Magic */
+    background: linear-gradient(135deg, #ffffff 30%, #a855f7 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+}
+
+.brand-icon {
+    margin-right: 10px;
+    font-size: 22px;
+    /* Ensures the icon also takes the gradient */
+    -webkit-text-fill-color: transparent;
+}
+
+.brand-text {
+    font-weight: 800;
+    letter-spacing: -1.2px;
+    margin-bottom: 10px;
+}
+
+/* Subtitle "Admin Panel" Styles */
+.panel-subtitle-container {
+    font-size: 15px;
+    font-weight: 700;
+    color: #94a3b8;
+    text-transform: uppercase;
+    letter-spacing: 3px;
+    margin-top: 13px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    opacity: 0.8;
+}
+
+.line-accent {
+    width: 20px;
+    height: 1px;
+    background: #7c3aed;
+}
+
+.subtitle-text {
+    white-space: nowrap;
+}
+    </style>
+</head>
+<body>
+
+<div class="dashboard-container">
+    <nav class="sidebar">
+        <div class="logo-area">
+            <div class="brand-container">
+                <div class="brand-content">
+                    <i class="fa-solid fa-box-open brand-icon"></i>
+                    <span class="brand-text">AssetCentral</span>
+                </div>
+            </div>
+
+            <div class="panel-subtitle-container">
+                <span class="line-accent"></span>
+                <span class="subtitle-text">Admin Panel</span>
+                <span class="line-accent"></span>
+            </div>
+        </div>
+        <ul class="nav-links">
+            <li><a href="/employee/dashboard" class="active"><i class="fas fa-chart-pie"></i> Dashboard</a></li>
+            <li><a href="/employee/report-issue"><i class="fas fa-exclamation-circle"></i> Report Issue</a></li>
+            <li><a href="/employee/my-issues"><i class="fas fa-list-ul"></i> My Issues</a></li>
+            <li><a href="/employee/profile"><i class="fas fa-user-circle"></i> Profile</a></li>
+        </ul>
+        <div class="sidebar-footer">
+            <a href="/logout" class="logout-link"><i class="fas fa-sign-out-alt"></i> Logout</a>
+        </div>
+    </nav>
+
+    <main class="main-content">
+        <header class="top-bar">
+            <div class="welcome-msg">Welcome, <span th:text="${user.name}">Employee</span>!</div>
+
+            <div style="display: flex; align-items: center;">
+                <div class="search-container">
+                    <i class="fas fa-search search-icon"></i>
+                    <input type="text" id="assetSearch" placeholder="Search my assets..." onkeyup="filterTable()">
+                </div>
+
+                <div class="profile-container">
+                    <div class="circle-profile"
+                         th:text="${user != null and user.name != null} ? ${user.name.substring(0,1)} : 'E'"
+                         title="View Profile"
+                         onclick="window.location.href='/employee/profile'"
+                         style="cursor:pointer;">
+                        A
+                    </div>
+                </div>
+            </div>
+        </header>
+
+        <div class="content-area">
+            <div style="margin-bottom: 30px;">
+                <h2 style="margin: 0; font-size: 28px;">Employee Dashboard</h2>
+                <p style="color: var(--text-muted); margin: 5px 0 0;">You have <span th:text="${#lists.size(assets)}" style="color: var(--primary); font-weight: 700;">0</span> active assets.</p>
+            </div>
+
+            <section class="stats-grid">
+                <div class="stat-card total">
+                    <div class="card-header">
+                        <span>Your Assets</span>
+                        <i class="fas fa-laptop"></i>
+                    </div>
+                    <h3 th:text="${#lists.size(assets)}">0</h3>
+                    <p class="card-subtitle">Equipment assigned to you</p>
+                </div>
+
+                <div class="stat-card users">
+                    <div class="card-header">
+                        <span>Issues Reported</span>
+                        <i class="fas fa-clipboard-list"></i>
+                    </div>
+                    <h3 th:text="${totalIssues}">0</h3>
+                    <p class="card-subtitle">Lifetime tickets raised</p>
+                </div>
+
+                <div class="stat-card issues">
+                    <div class="card-header">
+                        <span>Pending</span>
+                        <i class="fas fa-exclamation-circle"></i>
+                    </div>
+                    <h3 th:text="${pendingIssues}">0</h3>
+                    <p class="card-subtitle">Awaiting resolution</p>
+                </div>
+            </section>
+
+            <section class="table-card">
+                <table class="styled-table" id="assetTable">
+                    <thead>
+                    <tr>
+                        <th style="width: 50px;">#</th>
+                        <th>Asset Name</th>
+                        <th>Status</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr th:each="a, stat : ${assets}">
+                        <td th:text="${stat.count}">1</td>
+                        <td style="font-weight: 700;" th:text="${a.name}">Laptop</td>
+                        <td><span class="badge">Assigned</span></td>
+                    </tr>
+                    <tr th:if="${#lists.isEmpty(assets)}">
+                        <td colspan="3" class="empty-state">No assets currently assigned.</td>
+                    </tr>
+                    </tbody>
+                </table>
+            </section>
+        </div>
+    </main>
+</div>
+
+<script>
+    function filterTable() {
+        const input = document.getElementById("assetSearch");
+        const filter = input.value.toLowerCase();
+        const table = document.getElementById("assetTable");
+        const tr = table.getElementsByTagName("tr");
+        for (let i = 1; i < tr.length; i++) {
+            const row = tr[i];
+            row.style.display = row.textContent.toLowerCase().includes(filter) ? "" : "none";
+        }
+    }
+</script>
+
+</body>
+</html>

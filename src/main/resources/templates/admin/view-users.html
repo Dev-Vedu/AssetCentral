@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>All Users</title>
+
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;600;700;800&display=swap" rel="stylesheet">
+
+    <style>
+        body{
+        margin:0;
+        padding:0;
+        font-family:'Plus Jakarta Sans',sans-serif;
+        background:#f8fafc;
+        }
+
+        .container{
+        padding:40px;
+        }
+
+        .card{
+        background:white;
+        padding:30px;
+        border-radius:20px;
+        box-shadow:0 10px 25px rgba(0,0,0,0.05);
+        }
+
+        h2{
+        margin:0 0 20px;
+        }
+
+        .table-box{
+        max-height:500px;
+        overflow-y:auto;
+        border:1px solid #eee;
+        border-radius:12px;
+        }
+
+        table{
+        width:100%;
+        border-collapse:collapse;
+        }
+
+        th{
+        position:sticky;
+        top:0;
+        background:#6d28d9;
+        color:white;
+        padding:14px;
+        text-align:left;
+        }
+
+        td{
+        padding:14px;
+        border-bottom:1px solid #eee;
+        }
+
+        tr:hover{
+        background:#f9fafb;
+        }
+
+        .back{
+        display:inline-block;
+        margin-top:20px;
+        text-decoration:none;
+        color:#6d28d9;
+        font-weight:700;
+        }
+    </style>
+</head>
+
+<body>
+
+<div class="container">
+    <div class="card">
+
+        <h2>Employees</h2>
+
+        <table>
+            <thead>
+            <tr>
+                <th>#</th>
+                <th>ID</th>
+                <th>Name</th>
+                <th>Email</th>
+                <th>Status</th>
+                <th>Action</th>
+            </tr>
+            </thead>
+
+            <tbody>
+            <tr th:each="u, stat : ${employees}">
+                <td th:text="${stat.count}"></td>
+                <td th:text="${u.employeeId}"></td>
+                <td th:text="${u.name}"></td>
+                <td th:text="${u.email}"></td>
+                <td th:text="${u.active} ? 'Active' : 'Inactive'"></td>
+
+
+                <td>
+                    <a th:href="@{'/admin/edit-user/' + ${u.id}}">Edit</a>
+                    <a th:href="@{'/admin/toggle-user/' + ${u.id}}"
+                       th:text="${u.active} ? 'Deactivate' : 'Activate'"></a>
+                    <a th:href="@{'/admin/delete-user/' + ${u.id}}">Delete</a>
+                </td>
+
+            </tr>
+            </tbody>
+        </table>
+
+        <h2 style="margin-top:40px;">Workers</h2>
+
+        <table>
+            <thead>
+            <tr>
+                <th>#</th>
+                <th>ID</th>
+                <th>Name</th>
+                <th>Email</th>
+                <th>Status</th>
+                <th>Action</th>
+            </tr>
+            </thead>
+
+            <tbody>
+            <tr th:each="u, stat : ${workers}">
+                <td th:text="${stat.count}"></td>
+                <td th:text="${u.employeeId}"></td>
+                <td th:text="${u.name}"></td>
+                <td th:text="${u.email}"></td>
+                <td th:text="${u.active} ? 'Active' : 'Inactive'"></td>
+
+
+                <td>
+                    <a th:href="@{'/admin/edit-user/' + ${u.id}}">Edit</a>
+                    <a th:href="@{'/admin/toggle-user/' + ${u.id}}"
+                       th:text="${u.active} ? 'Deactivate' : 'Activate'"></a>
+                    <a th:href="@{'/admin/delete-user/' + ${u.id}}">Delete</a>
+                </td>
+
+            </tr>
+            </tbody>
+        </table>
+
+
+        <a href="/admin/dashboard" class="back">← Back to Dashboard</a>
+
+    </div>
+</div>
+
+</body>
+</html>
