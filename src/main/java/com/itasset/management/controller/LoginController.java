@@ -14,7 +14,12 @@ public class LoginController {
     @Autowired
     private UserService userService;
 
+
     @GetMapping("/")
+    public String frontPage() {
+        return "front";
+    }
+    @GetMapping("/login")
     public String loginPage() {
         return "login";
     }
