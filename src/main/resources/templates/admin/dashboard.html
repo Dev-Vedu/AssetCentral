@@ -144,8 +144,8 @@
                         <td th:text="${a.serialNumber}" style="font-family: monospace; color: var(--text-muted);font-weight: bold;font-size:16px;"></td>
                         <td><span class="badge" th:text="${a.assignedTo}"></span></td>
                         <td>
-                            <a th:href="@{'/admin/edit-asset/' + ${a.id}}" class="action-btn edit-btn">
-                                Edit
+<!--                            <a th:href="@{'/admin/edit-asset/' + ${a.id}}" class="action-btn edit-btn">-->
+<!--                                Edit-->
                             </a>
                             <a th:href="@{'/admin/delete-asset/' + ${a.id}}" class="action-btn delete-btn" onclick="return confirm('Delete?')">
                                 Delete

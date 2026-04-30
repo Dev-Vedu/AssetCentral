@@ -113,17 +113,17 @@ public class AdminController {
     }
 
 
-    @GetMapping("/edit-asset/{id}")
-    public String editAsset(@PathVariable Long id, Model model) {
-        model.addAttribute("asset", assetService.getById(id));
-        return "admin/edit-asset";
-    }
-
-    @PostMapping("/update-asset")
-    public String updateAsset(@ModelAttribute Asset asset) {
-        assetService.update(asset);
-        return "redirect:/admin/dashboard";
-    }
+//    @GetMapping("/edit-asset/{id}")
+//    public String editAsset(@PathVariable Long id, Model model) {
+//        model.addAttribute("asset", assetService.getById(id));
+//        return "admin/edit-asset";
+//    }
+//
+//    @PostMapping("/update-asset")
+//    public String updateAsset(@ModelAttribute Asset asset) {
+//        assetService.update(asset);
+//        return "redirect:/admin/dashboard";
+//    }
 
     @GetMapping("/add-user")
     public String addUserPage(Model model) {

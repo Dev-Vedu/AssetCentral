@@ -65,9 +65,9 @@ public class WorkerController {
 
         User user = (User) session.getAttribute("user");
 
-        if (user == null) {
-            return "redirect:/";
-        }
+//        if (user == null) {
+//            return "redirect:/";
+//        }
 
         model.addAttribute("user", user);
 
